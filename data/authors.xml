@@ -1,1 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?><authors></authors>
+<?xml version='1.0' encoding='utf-8'?>
+<authors>
+  <author>
+    <author_id>1</author_id>
+    <name>Лев Толстой</name>
+  </author>
+</authors>

@@ -34,6 +34,8 @@ class AuthorRepository:
             return self._update_name_xml(author_id,name)
         raise FormatFileError
     
+    
+
     def find_author_by_id(self, author_id: int) -> Author | None:
         for author in self.get_all():
             if author.to_dict()["author_id"] == author_id:

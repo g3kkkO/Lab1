@@ -18,6 +18,9 @@ class CustomerService:
             raise InvalidEmailError
         customer = self.db.customer.create_customer(customer_name,email)
         return customer
+    
+    def get_all(self) -> list[Customer]:
+        return self.db.customer.get_all()
 
     def get_customer(self,customer_id: str) -> Customer:
         if not customer_id.isdigit() or int(customer_id) <= 0:

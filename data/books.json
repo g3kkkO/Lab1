@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "book_id": 1,
+    "title": "as",
+    "author_ids": [
+      1,
+      2,
+      3
+    ],
+    "publisher_id": 1,
+    "year": 1,
+    "genres_ids": [
+      2
+    ],
+    "price": 4.0,
+    "stock": 2
+  }
+]

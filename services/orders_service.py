@@ -13,6 +13,9 @@ class OrderService:
     def __init__(self, db: Manager):
         self.db = db
 
+    def get_all(self) -> list[Order]:
+        return self.db.order.get_all()
+
     def create_order(self, customer_id: str, items: list[dict],
                      status: str, address: str) -> Order:
         if not customer_id.isdigit() or int(customer_id) <= 0:

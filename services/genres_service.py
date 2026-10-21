@@ -26,6 +26,9 @@ class GenreService:
             raise GenreNotFound
         return genre
 
+    def get_all(self) -> list[Genre]:
+        return self.db.genre.get_all()
+
     def update_name(self, genre_id: str, genre_name: str) -> Genre:
         genre_name = " ".join(genre_name.split())
         if not genre_id.isdigit() or int(genre_id) <= 0:

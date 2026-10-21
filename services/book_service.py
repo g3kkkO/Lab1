@@ -11,6 +11,9 @@ class BookService:
     def __init__(self, db: Manager):
         self.db = db
 
+    def get_all(self) -> list[Book]:
+        return self.db.book.get_all()
+
     def create_book(self, title: str, author_ids: list[str], publisher_id: str,
                 year: str, genres_ids: list[str], price: str, stock: str) -> Book:
         self._validate_params(title, author_ids, publisher_id, year, genres_ids, price, stock)

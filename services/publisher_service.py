@@ -10,8 +10,6 @@ class PublisherService:
 
     def create_publisher(self, name: str) -> Publisher:
         name = " ".join(name.split())
-        if not ValidationHelper.validate_name(name):
-            raise NameTypeError
         publisher = self.db.publisher.create_publisher(name)
         return publisher
 
@@ -25,15 +23,15 @@ class PublisherService:
         return publisher
 
     def update_name(self, publisher_id: str, name: str) -> Publisher:
-        name = " ".join(name.split())
         if not publisher_id.isdigit() or int(publisher_id) <= 0:
             raise IdTypeError
-        if not ValidationHelper.validate_name(name):
-            raise NameTypeError
         updated = self.db.publisher.update_name(int(publisher_id), name)
         if not updated:
             raise PublisherNotFound
         return updated
+
+    def get_all(self) -> list[Publisher]:
+        return self.db.publisher.get_all()
 
     def delete_publisher(self,publisher_id: str) -> None:
         if not publisher_id.isdigit() or int(publisher_id) <= 0:

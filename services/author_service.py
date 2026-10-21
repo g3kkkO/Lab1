@@ -16,6 +16,9 @@ class AuthorService:
         author = self.db.author.create_author(name)
         return author
 
+    def get_all(self) -> list[Author]:
+        return self.db.author.get_all()
+    
     def get_author(self,author_id: str) -> Author:
         if not author_id.isdigit():
             raise IdTypeError
