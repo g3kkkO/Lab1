@@ -2,13 +2,13 @@ class Book:
 
     def __init__(self, book_id: int, title: str,
                  author_ids: list[int], publisher_id: int,
-                 year: int, genres: list[int], price: float, stock: int):
+                 year: int, genres_ids: list[int], price: float, stock: int):
         self._book_id = book_id
         self._title = title
         self._author_ids = author_ids
         self._publisher_id = publisher_id
         self._year = year
-        self._genres = genres
+        self._genres_ids = genres_ids
         self._price = price
         self._stock = stock
 
@@ -19,7 +19,7 @@ class Book:
             "author_ids": self._author_ids,
             "publisher_id": self._publisher_id,
             "year": self._year,
-            "genres": self._genres,
+            "genres_ids": self._genres_ids,
             "price": self._price,
             "stock": self._stock,
         }
@@ -32,7 +32,7 @@ class Book:
             author_ids=data["author_ids"],
             publisher_id=data["publisher_id"],
             year=data["year"],
-            genres=data["genres"],
+            genres_ids=data["genres_ids"],
             price=data["price"],
             stock=data["stock"],
         )

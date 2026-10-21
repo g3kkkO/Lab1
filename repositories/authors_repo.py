@@ -2,7 +2,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from models.authors import Author
-from exceptions.FormatException import FormatFileError
+from core.exceptions import FormatFileError
 
 
 

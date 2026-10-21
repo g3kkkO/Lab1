@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from models.customers import Customer
-from exceptions.FormatException import FormatFileError
+from core.exceptions import FormatFileError
 
 
 class CustomerRepository:

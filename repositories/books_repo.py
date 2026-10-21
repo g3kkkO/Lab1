@@ -2,7 +2,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from models.books import Book
-from exceptions.FormatException import FormatFileError
+from core.exceptions import FormatFileError
 
 class BookRepository:
 
@@ -18,9 +18,9 @@ class BookRepository:
         raise FormatFileError
     
     def create_book(self, title: str, author_ids: list[int], publisher_id: int,
-                    year: int, genres: list[int], price: float, stock: int) -> Book:
+                    year: int, genres_ids: list[int], price: float, stock: int) -> Book:
         book = Book(book_id=self._get_id(), title=title, author_ids=author_ids,
-                    publisher_id=publisher_id, year=year, genres=genres,
+                    publisher_id=publisher_id, year=year, genres_ids=genres_ids,
                     price=price, stock=stock)
         books = self.get_all()
         books.append(book)
@@ -54,8 +54,8 @@ class BookRepository:
     def update_year(self, book_id: int, year: int) -> Book | None:
         return self._update_book(book_id, year=year)
 
-    def update_genres(self, book_id: int, genres: list[int]) -> Book | None:
-        return self._update_book(book_id, genres=genres)
+    def update_genres(self, book_id: int, genres_ids: list[int]) -> Book | None:
+        return self._update_book(book_id, genres_ids=genres_ids)
 
     def update_price(self, book_id: int, price: float) -> Book | None:
         return self._update_book(book_id, price=price)
@@ -93,14 +93,14 @@ class BookRepository:
         books = []
         for el in root.findall("./book"):
             author_ids = [int(x.text) for x in el.find("author_ids").findall("id")]
-            genres = [int(x.text) for x in el.find("genres").findall("id")]
+            genres_ids = [int(x.text) for x in el.find("genres_ids").findall("id")]
             books.append(Book.from_dict({
                 "book_id": int(el.findtext("book_id")),
                 "title": el.findtext("title"),
                 "author_ids": author_ids,
                 "publisher_id": int(el.findtext("publisher_id")),
                 "year": int(el.findtext("year")),
-                "genres": genres,
+                "genres_ids": genres_ids,
                 "price": float(el.findtext("price")),
                 "stock": int(el.findtext("stock")),
             }))
@@ -127,8 +127,8 @@ class BookRepository:
             ET.SubElement(el, "publisher_id").text = str(data["publisher_id"])
             ET.SubElement(el, "year").text = str(data["year"])
 
-            genres_el = ET.SubElement(el, "genres")
-            for gid in data["genres"]:
+            genres_el = ET.SubElement(el, "genres_ids")
+            for gid in data["genres_ids"]:
                 ET.SubElement(genres_el, "id").text = str(gid)
 
             ET.SubElement(el, "price").text = str(data["price"])

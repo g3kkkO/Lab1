@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 from models.genres import Genre
-from exceptions.FormatException import FormatFileError
+from core.exceptions import FormatFileError
 
 
 class GenreRepository:
@@ -21,7 +21,7 @@ class GenreRepository:
 
     def create_genre(self, genre_name: str) -> Genre:
         genre = Genre(
-            genres_id=self._get_id(),
+            genre_id=self._get_id(),
             genre_name=genre_name,
         )
         genres = self.get_all()
@@ -29,28 +29,28 @@ class GenreRepository:
         self._save_all(genres)
         return genre
 
-    def find_genre_by_id(self, genres_id: int) -> Genre | None:
+    def find_genre_by_id(self, genre_id: int) -> Genre | None:
         for genre in self.get_all():
-            if genre.to_dict()["genres_id"] == genres_id:
+            if genre.to_dict()["genre_id"] == genre_id:
                 return genre
         return None
 
-    def delete_genre(self, genres_id: int) -> bool:
+    def delete_genre(self, genre_id: int) -> bool:
         genres = self.get_all()
         for i, g in enumerate(genres):
-            if g.to_dict()["genres_id"] == genres_id:
+            if g.to_dict()["genre_id"] == genre_id:
                 genres.pop(i)
                 self._save_all(genres)
                 return True
         return False
 
-    def update_genre_name(self, genres_id: int, genre_name: str) -> Genre | None:
-        return self._update_genre(genres_id, genre_name=genre_name)
+    def update_genre_name(self, genre_id: int, genre_name: str) -> Genre | None:
+        return self._update_genre(genre_id, genre_name=genre_name)
 
-    def _update_genre(self, genres_id: int, **changes) -> Genre | None:
+    def _update_genre(self, genre_id: int, **changes) -> Genre | None:
         genres = self.get_all()
         for i, g in enumerate(genres):
-            if g.to_dict()["genres_id"] == genres_id:
+            if g.to_dict()["genre_id"] == genre_id:
                 data = g.to_dict()
                 data.update(changes)
                 updated = Genre.from_dict(data)
@@ -77,7 +77,7 @@ class GenreRepository:
         genres = []
         for el in root.findall("./genre"):
             genres.append(Genre.from_dict({
-                "genres_id": int(el.findtext("genres_id")),
+                "genre_id": int(el.findtext("genre_id")),
                 "genre_name": el.findtext("genre_name"),
             }))
         return genres
@@ -92,7 +92,7 @@ class GenreRepository:
         for g in genres:
             data = g.to_dict()
             el = ET.SubElement(root, "genre")
-            ET.SubElement(el, "genres_id").text = str(data["genres_id"])
+            ET.SubElement(el, "genre_id").text = str(data["genre_id"])
             ET.SubElement(el, "genre_name").text = data["genre_name"]
         ET.indent(root)
         ET.ElementTree(root).write(self._path,
@@ -100,4 +100,4 @@ class GenreRepository:
 
     def _get_id(self) -> int:
         genres = self.get_all()
-        return max((g.to_dict()["genres_id"] for g in genres), default=0) + 1
+        return max((g.to_dict()["genre_id"] for g in genres), default=0) + 1

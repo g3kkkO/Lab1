@@ -2,7 +2,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from models.publishers import Publisher
-from exceptions.FormatException import FormatFileError
+from core.exceptions import FormatFileError
 
 
 class PublisherRepository:
@@ -18,8 +18,8 @@ class PublisherRepository:
             return self._read_xml()
         raise FormatFileError
     
-    def create_publisher(self, name: str, contact: str) -> Publisher:
-        publisher = Publisher(publisher_id=self._get_id(), name=name, contact=contact)
+    def create_publisher(self, publisher_name: str) -> Publisher:
+        publisher = Publisher(publisher_id=self._get_id(), publisher_name=publisher_name)
         publishers = self.get_all()
         publishers.append(publisher)
         self._save_all(publishers)
@@ -40,11 +40,9 @@ class PublisherRepository:
                 return True
         return False
 
-    def update_name(self, publisher_id: int, name: str) -> Publisher | None:
-        return self._update_publisher(publisher_id, name=name)
+    def update_name(self, publisher_id: int, publisher_name: str) -> Publisher | None:
+        return self._update_publisher(publisher_id, publisher_name=publisher_name)
 
-    def update_contact(self, publisher_id: int, contact: str) -> Publisher | None:
-        return self._update_publisher(publisher_id, contact=contact)
 
     def _update_publisher(self, publisher_id: int, **changes) -> Publisher | None:
         publishers = self.get_all()
@@ -75,8 +73,7 @@ class PublisherRepository:
         return [
             Publisher.from_dict({
                 "publisher_id": int(el.findtext("publisher_id")),
-                "name": el.findtext("name"),
-                "contact": el.findtext("contact"),
+                "publisher_name": el.findtext("publisher_name"),
             })
             for el in root.findall("./publisher")
         ]
@@ -92,8 +89,7 @@ class PublisherRepository:
             data = p.to_dict()
             el = ET.SubElement(root, "publisher")
             ET.SubElement(el, "publisher_id").text = str(data["publisher_id"])
-            ET.SubElement(el, "name").text = data["name"]
-            ET.SubElement(el, "contact").text = data["contact"]
+            ET.SubElement(el, "publisher_name").text = data["publisher_name"]
         ET.indent(root)
         ET.ElementTree(root).write(self._path,
                                    encoding="utf-8", xml_declaration=True)

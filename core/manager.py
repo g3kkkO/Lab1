@@ -5,6 +5,7 @@ from repositories.genres_repo import GenreRepository
 from repositories.orders_repo import OrderRepository
 from repositories.publisher_repo import PublisherRepository
 
+
 class Manager:
 
     def __init__(self, path):
@@ -15,3 +16,5 @@ class Manager:
         self.genre = GenreRepository(path=path)
         self.order = OrderRepository(path=path)
         self.publisher = PublisherRepository(path=path)
+
+
