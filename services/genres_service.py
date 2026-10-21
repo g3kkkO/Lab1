@@ -4,12 +4,14 @@ from models.genres import Genre
 from core.validation_helper import ValidationHelper
 
 
-
+# Сервис Genre — бизнес-логика и валидация для CRUD
 class GenreService:
 
+    # Инициализация: менеджер репозиториев
     def __init__(self, db: Manager):
         self.db = db
 
+    # CREATE: создать жанр (валидация названия)
     def create_genre(self, genre_name: str) -> Genre:
         genre_name = " ".join(genre_name.split())
         if not ValidationHelper.validate_name(genre_name):
@@ -17,7 +19,8 @@ class GenreService:
         genre = self.db.genre.create_genre(genre_name)
         return genre
 
-    def get_genre(self,genre_id: str) -> Genre:
+    # READ: найти жанр по ID
+    def get_genre(self, genre_id: str) -> Genre:
         if not genre_id.isdigit() or int(genre_id) <= 0:
             raise IdTypeError
         genre_id = int(genre_id)
@@ -26,9 +29,11 @@ class GenreService:
             raise GenreNotFound
         return genre
 
+    # READ: получить все жанры
     def get_all(self) -> list[Genre]:
         return self.db.genre.get_all()
 
+    # UPDATE: изменить название жанра
     def update_name(self, genre_id: str, genre_name: str) -> Genre:
         genre_name = " ".join(genre_name.split())
         if not genre_id.isdigit() or int(genre_id) <= 0:
@@ -40,7 +45,8 @@ class GenreService:
             raise GenreNotFound
         return updated
 
-    def delete_genre(self,genre_id: str) -> None:
+    # DELETE: удалить жанр по ID
+    def delete_genre(self, genre_id: str) -> None:
         if not genre_id.isdigit() or int(genre_id) <= 0:
             raise IdTypeError
         genre_id = int(genre_id)

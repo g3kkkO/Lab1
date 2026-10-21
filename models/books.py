@@ -1,3 +1,4 @@
+# Класс-модель Book
 class Book:
 
     def __init__(self, book_id: int, title: str,
@@ -12,6 +13,7 @@ class Book:
         self._price = price
         self._stock = stock
 
+    # Преобразование объекта в словарь
     def to_dict(self) -> dict:
         return {
             "book_id": self._book_id,
@@ -24,6 +26,7 @@ class Book:
             "stock": self._stock,
         }
 
+    # Создание объекта из словаря
     @classmethod
     def from_dict(cls, data: dict) -> "Book":
         return cls(

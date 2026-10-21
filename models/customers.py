@@ -1,3 +1,4 @@
+# Класс-модель Customer
 class Customer:
 
     def __init__(self, customer_id: int, name: str, email: str):
@@ -5,6 +6,7 @@ class Customer:
         self._name = name
         self._email = email
 
+    # Преобразование объекта в словарь
     def to_dict(self) -> dict:
         return {
             "customer_id": self._customer_id,
@@ -12,6 +14,7 @@ class Customer:
             "email": self._email,
         }
 
+    # Создание объекта из словаря
     @classmethod
     def from_dict(cls, data: dict) -> "Customer":
         return cls(

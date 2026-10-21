@@ -1,3 +1,4 @@
+# Класс-модель OrderItems
 class OrderItems:
 
     def __init__(self, product_id: int, name: str,
@@ -7,9 +8,11 @@ class OrderItems:
         self._price_at_purchase = price_at_purchase
         self._quantity = quantity
 
+    # Стоимость позиции с учётом количества
     def total(self) -> float:
         return self._price_at_purchase * self._quantity
 
+    # Преобразование объекта в словарь
     def to_dict(self) -> dict:
         return {
             "product_id": self._product_id,
@@ -18,6 +21,7 @@ class OrderItems:
             "quantity": self._quantity,
         }
 
+    # Создание объекта из словаря
     @classmethod
     def from_dict(cls, data: dict) -> "OrderItems":
         return cls(

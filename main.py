@@ -15,18 +15,22 @@ from services.orders_service import OrderService
 from services.publisher_service import PublisherService
 
 
+# Очистка экрана (кроссплатформенно)
 def clear() -> None:
     os.system("clear" if os.name != "nt" else "cls")
 
 
+# Пауза до нажатия Enter
 def pause() -> None:
     input("\nEnter — продолжить...")
 
 
+# Вывод ошибки в читаемом виде
 def show_error(e: Exception) -> None:
     print(f"\n[Ошибка] {type(e).__name__}: {e}")
 
 
+# Главное меню: выбор сущности
 def ask_entity() -> str | None:
     clear()
     print("=== ГЛАВНОЕ МЕНЮ ===")
@@ -46,6 +50,7 @@ def ask_entity() -> str | None:
     }.get(choice)
 
 
+# Меню выбора формата файла (JSON/XML)
 def ask_format() -> str | None:
     clear()
     print("=== ФОРМАТ ФАЙЛА ===")
@@ -57,6 +62,7 @@ def ask_format() -> str | None:
     return {"1": "json", "2": "xml", "0": None}.get(choice)
 
 
+# Фабрика сервисов: сущность → сервис
 def make_service(entity: str, db: Manager):
     return {
         "author":    AuthorService,
@@ -68,6 +74,7 @@ def make_service(entity: str, db: Manager):
     }[entity](db)
 
 
+# Меню действий (CRUD) для выбранной сущности
 def actions_menu(service, entity_name: str) -> None:
     while True:
         clear()
@@ -80,6 +87,7 @@ def actions_menu(service, entity_name: str) -> None:
         choice = input("\nВыбор: ").strip()
 
         try:
+            # READ: список всех записей
             if choice == "1":
                 items = service.get_all() if hasattr(service, "get_all") else []
                 clear()
@@ -89,18 +97,22 @@ def actions_menu(service, entity_name: str) -> None:
                     print(obj.to_dict())
                 pause()
 
+            # CREATE: создание записи
             elif choice == "2":
                 create_flow(service, entity_name)
                 pause()
 
+            # UPDATE: изменение записи
             elif choice == "3":
                 update_flow(service, entity_name)
                 pause()
 
+            # DELETE: удаление записи
             elif choice == "4":
                 delete_flow(service, entity_name)
                 pause()
 
+            # Назад в главное меню
             elif choice == "0":
                 return
 
@@ -108,17 +120,20 @@ def actions_menu(service, entity_name: str) -> None:
                 print("Нет такой команды.")
                 pause()
 
+        # Ловим доменные исключения и печатаем понятное сообщение
         except (IdTypeError, NameTypeError, YearValueError, PriceValueError,
                 StockValueError, StatusValueError, InvalidEmailError,
                 AuthorNotFound, BookNotFound, CustomerNotFound, GenreNotFound,
                 OrderNotFound, PublisherNotFound) as e:
             show_error(e)
             pause()
+        # Ловим прочие исключения (чтобы меню не падало)
         except Exception as e:
             show_error(e)
             pause()
 
 
+# CREATE: ввод полей и создание записи
 def create_flow(service, entity_name: str) -> None:
     clear()
     print(f"--- Создание ({entity_name}) ---")
@@ -162,6 +177,7 @@ def create_flow(service, entity_name: str) -> None:
     print(f"\nСоздано: {obj.to_dict()}")
 
 
+# UPDATE: выбор поля и изменение записи
 def update_flow(service, entity_name: str) -> None:
     clear()
     print(f"--- Изменение ({entity_name}) ---")
@@ -260,6 +276,7 @@ def update_flow(service, entity_name: str) -> None:
         print("Нет такого действия.")
 
 
+# DELETE: удаление записи по ID
 def delete_flow(service, entity_name: str) -> None:
     clear()
     print(f"--- Удаление ({entity_name}) ---")
@@ -282,6 +299,7 @@ def delete_flow(service, entity_name: str) -> None:
     print("Удалено.")
 
 
+# Точка входа: главное меню → формат → действия
 def main() -> None:
     while True:
         entity = ask_entity()
@@ -292,11 +310,11 @@ def main() -> None:
 
         fmt = ask_format()
         if fmt is None:
-            continue                      
+            continue                      # назад в главное меню
 
-        db = Manager("data", fmt)         
+        db = Manager("data", fmt)         # путь выбран один раз
         service = make_service(entity, db)
-        actions_menu(service, entity)     
+        actions_menu(service, entity)     # 0 → назад к выбору сущности
 
 
 if __name__ == "__main__":

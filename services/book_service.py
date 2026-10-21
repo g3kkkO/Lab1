@@ -1,21 +1,26 @@
 from core.manager import Manager
 from models.books import Book
-from core.exceptions import (AuthorNotFound, NameTypeError, IdTypeError, 
-                             YearValueError,PriceValueError,StockValueError,
+from core.exceptions import (AuthorNotFound, NameTypeError, IdTypeError,
+                             YearValueError, PriceValueError, StockValueError,
                              BookNotFound)
 from core.validation_helper import ValidationHelper
 from datetime import datetime
 
+
+# Сервис Book — бизнес-логика и валидация для CRUD
 class BookService:
 
+    # Инициализация: менеджер репозиториев
     def __init__(self, db: Manager):
         self.db = db
 
+    # READ: получить все книги
     def get_all(self) -> list[Book]:
         return self.db.book.get_all()
 
+    # CREATE: создать книгу (валидация всех полей)
     def create_book(self, title: str, author_ids: list[str], publisher_id: str,
-                year: str, genres_ids: list[str], price: str, stock: str) -> Book:
+                    year: str, genres_ids: list[str], price: str, stock: str) -> Book:
         self._validate_params(title, author_ids, publisher_id, year, genres_ids, price, stock)
         return self.db.book.create_book(
             title=" ".join(title.split()),
@@ -27,7 +32,8 @@ class BookService:
             stock=int(stock),
         )
 
-    def get_book(self,book_id: str) -> Book:
+    # READ: найти книгу по ID
+    def get_book(self, book_id: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
         book_id = int(book_id)
@@ -36,6 +42,7 @@ class BookService:
             raise BookNotFound
         return book
 
+    # UPDATE: изменить название
     def update_title(self, book_id: str, title: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -43,7 +50,8 @@ class BookService:
         if not updated:
             raise BookNotFound
         return updated
-    
+
+    # UPDATE: изменить список авторов
     def update_author_ids(self, book_id: str, author_ids: list[str]) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -53,6 +61,7 @@ class BookService:
             raise BookNotFound
         return updated
 
+    # UPDATE: изменить издателя
     def update_publisher_id(self, book_id: str, publisher_id: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -63,6 +72,7 @@ class BookService:
             raise BookNotFound
         return updated
 
+    # UPDATE: изменить год
     def update_year(self, book_id: str, year: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -74,6 +84,7 @@ class BookService:
             raise BookNotFound
         return updated
 
+    # UPDATE: изменить жанры
     def update_genres(self, book_id: str, genres_ids: list[str]) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -83,6 +94,7 @@ class BookService:
             raise BookNotFound
         return updated
 
+    # UPDATE: изменить цену
     def update_price(self, book_id: str, price: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -93,6 +105,7 @@ class BookService:
             raise BookNotFound
         return updated
 
+    # UPDATE: изменить склад
     def update_stock(self, book_id: str, stock: str) -> Book:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -103,7 +116,7 @@ class BookService:
             raise BookNotFound
         return updated
 
-
+    # DELETE: удалить книгу по ID
     def delete_book(self, book_id: str) -> None:
         if not book_id.isdigit() or int(book_id) <= 0:
             raise IdTypeError
@@ -114,11 +127,10 @@ class BookService:
             return
         raise BookNotFound
 
-
+    # Валидация всех параметров создания
     def _validate_params(self, title: str, author_ids: list[str], publisher_id: str,
-                        year: str, genres_ids: list[str], price: str, stock: str) -> None:
+                         year: str, genres_ids: list[str], price: str, stock: str) -> None:
         title = " ".join(title.split())
-
 
         self._validate_ids(author_ids)
         self._validate_ids(genres_ids)
@@ -136,7 +148,7 @@ class BookService:
         if not ValidationHelper.validate_price(price) or float(price) <= 0:
             raise PriceValueError
 
-
+    # Валидация списка ID (каждый — число > 0)
     def _validate_ids(self, ids: list[str]) -> None:
         for raw_id in ids:
             if not raw_id.isdigit() or int(raw_id) <= 0:

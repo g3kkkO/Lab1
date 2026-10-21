@@ -3,17 +3,22 @@ from core.exceptions import PublisherNotFound, NameTypeError, IdTypeError
 from models.publishers import Publisher
 from core.validation_helper import ValidationHelper
 
+
+# Сервис Publisher — бизнес-логика и валидация для CRUD
 class PublisherService:
 
+    # Инициализация: менеджер репозиториев
     def __init__(self, db: Manager):
-            self.db = db
+        self.db = db
 
+    # CREATE: создать издателя (валидация названия)
     def create_publisher(self, name: str) -> Publisher:
         name = " ".join(name.split())
         publisher = self.db.publisher.create_publisher(name)
         return publisher
 
-    def get_publisher(self,publisher_id: str) -> Publisher:
+    # READ: найти издателя по ID
+    def get_publisher(self, publisher_id: str) -> Publisher:
         if not publisher_id.isdigit() or int(publisher_id) <= 0:
             raise IdTypeError
         publisher_id = int(publisher_id)
@@ -22,6 +27,7 @@ class PublisherService:
             raise PublisherNotFound
         return publisher
 
+    # UPDATE: изменить название
     def update_name(self, publisher_id: str, name: str) -> Publisher:
         if not publisher_id.isdigit() or int(publisher_id) <= 0:
             raise IdTypeError
@@ -30,10 +36,12 @@ class PublisherService:
             raise PublisherNotFound
         return updated
 
+    # READ: получить всех издателей
     def get_all(self) -> list[Publisher]:
         return self.db.publisher.get_all()
 
-    def delete_publisher(self,publisher_id: str) -> None:
+    # DELETE: удалить издателя по ID
+    def delete_publisher(self, publisher_id: str) -> None:
         if not publisher_id.isdigit() or int(publisher_id) <= 0:
             raise IdTypeError
         publisher_id = int(publisher_id)

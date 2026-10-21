@@ -1,6 +1,7 @@
 from models.order_items import OrderItems
 
 
+# Класс-модель Order
 class Order:
 
     def __init__(self, order_id: int, customer_id: int,
@@ -13,6 +14,7 @@ class Order:
         self._address = address
         self._total = total
 
+    # Преобразование объекта в словарь
     def to_dict(self) -> dict:
         return {
             "order_id": self._order_id,
@@ -23,6 +25,7 @@ class Order:
             "total": self._total,
         }
 
+    # Создание объекта из словаря 
     @classmethod
     def from_dict(cls, data: dict) -> "Order":
         return cls(

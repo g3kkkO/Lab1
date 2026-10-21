@@ -6,16 +6,21 @@ from models.orders import Order
 from models.order_items import OrderItems
 
 
+# Сервис Order — бизнес-логика и валидация для CRUD
 class OrderService:
 
+    # Допустимые статусы заказа
     VALID_STATUSES = {"new", "paid", "shipped", "delivered", "cancelled"}
 
+    # Инициализация: менеджер репозиториев
     def __init__(self, db: Manager):
         self.db = db
 
+    # READ: получить все заказы
     def get_all(self) -> list[Order]:
         return self.db.order.get_all()
 
+    # CREATE: создать заказ (валидация клиента, адреса, статуса, позиций)
     def create_order(self, customer_id: str, items: list[dict],
                      status: str, address: str) -> Order:
         if not customer_id.isdigit() or int(customer_id) <= 0:
@@ -60,6 +65,7 @@ class OrderService:
             total=total,
         )
 
+    # READ: найти заказ по ID
     def get_order(self, order_id: str) -> Order:
         if not order_id.isdigit() or int(order_id) <= 0:
             raise IdTypeError
@@ -68,6 +74,7 @@ class OrderService:
             raise OrderNotFound
         return order
 
+    # UPDATE: изменить статус
     def update_status(self, order_id: str, status: str) -> Order:
         if not order_id.isdigit() or int(order_id) <= 0:
             raise IdTypeError
@@ -79,6 +86,7 @@ class OrderService:
             raise OrderNotFound
         return updated
 
+    # UPDATE: изменить адрес
     def update_address(self, order_id: str, address: str) -> Order:
         if not order_id.isdigit() or int(order_id) <= 0:
             raise IdTypeError
@@ -87,6 +95,7 @@ class OrderService:
             raise OrderNotFound
         return updated
 
+    # DELETE: удалить заказ по ID
     def delete_order(self, order_id: str) -> None:
         if not order_id.isdigit() or int(order_id) <= 0:
             raise IdTypeError

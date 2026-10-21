@@ -4,19 +4,24 @@ from pathlib import Path
 from models.books import Book
 from core.exceptions import FormatFileError
 
+
+# Репозиторий Book — CRUD-операции для JSON и XML
 class BookRepository:
 
+    # Инициализация: путь к файлу и формат по расширению
     def __init__(self, path: str):
         self._path = Path(path)
         self._format = self._path.suffix.lstrip(".").lower()
 
+    # READ: получить все книги
     def get_all(self) -> list[Book]:
         if self._format == "json":
             return self._read_json()
         if self._format == "xml":
             return self._read_xml()
         raise FormatFileError
-    
+
+    # CREATE: создать книгу
     def create_book(self, title: str, author_ids: list[int], publisher_id: int,
                     year: int, genres_ids: list[int], price: float, stock: int) -> Book:
         book = Book(book_id=self._get_id(), title=title, author_ids=author_ids,
@@ -27,12 +32,14 @@ class BookRepository:
         self._save_all(books)
         return book
 
+    # READ: найти книгу по ID
     def find_book_by_id(self, book_id: int) -> Book | None:
         for book in self.get_all():
             if book.to_dict()["book_id"] == book_id:
                 return book
         return None
 
+    # DELETE: удалить книгу по ID
     def delete_book(self, book_id: int) -> bool:
         books = self.get_all()
         for i, b in enumerate(books):
@@ -42,39 +49,48 @@ class BookRepository:
                 return True
         return False
 
+    # UPDATE: изменить название
     def update_title(self, book_id: int, title: str) -> Book | None:
         return self._update_book(book_id, title=title)
 
+    # UPDATE: изменить список авторов
     def update_author_ids(self, book_id: int, author_ids: list[int]) -> Book | None:
         return self._update_book(book_id, author_ids=author_ids)
 
+    # UPDATE: изменить издателя
     def update_publisher_id(self, book_id: int, publisher_id: int) -> Book | None:
         return self._update_book(book_id, publisher_id=publisher_id)
 
+    # UPDATE: изменить год
     def update_year(self, book_id: int, year: int) -> Book | None:
         return self._update_book(book_id, year=year)
 
+    # UPDATE: изменить жанры
     def update_genres(self, book_id: int, genres_ids: list[int]) -> Book | None:
         return self._update_book(book_id, genres_ids=genres_ids)
 
+    # UPDATE: изменить цену
     def update_price(self, book_id: int, price: float) -> Book | None:
         return self._update_book(book_id, price=price)
 
+    # UPDATE: изменить склад
     def update_stock(self, book_id: int, stock: int) -> Book | None:
         return self._update_book(book_id, stock=stock)
 
+    # UPDATE (общий): найти по ID и применить изменения
     def _update_book(self, book_id: int, **changes) -> Book | None:
         books = self.get_all()
         for i, b in enumerate(books):
             if b.to_dict()["book_id"] == book_id:
                 data = b.to_dict()
-                data.update(changes)                 
-                updated = Book.from_dict(data)       
+                data.update(changes)
+                updated = Book.from_dict(data)
                 books[i] = updated
                 self._save_all(books)
                 return updated
         return None
 
+    # WRITE: сохранить в зависимости от формата
     def _save_all(self, books: list[Book]) -> None:
         if self._format == "json":
             self._write_json(books)
@@ -83,10 +99,12 @@ class BookRepository:
         else:
             raise ValueError(f"Неподдерживаемый формат: {self._format}")
 
+    # READ (JSON): прочитать книги из JSON
     def _read_json(self) -> list[Book]:
         with open(self._path, encoding="utf-8") as f:
             return [Book.from_dict(d) for d in json.load(f)]
 
+    # READ (XML): прочитать книги из XML
     def _read_xml(self) -> list[Book]:
         tree = ET.parse(self._path)
         root = tree.getroot()
@@ -106,11 +124,13 @@ class BookRepository:
             }))
         return books
 
+    # WRITE (JSON): записать книги в JSON
     def _write_json(self, books: list[Book]) -> None:
         with open(self._path, "w", encoding="utf-8") as f:
             json.dump([b.to_dict() for b in books], f,
                       ensure_ascii=False, indent=2)
 
+    # WRITE (XML): записать книги в XML
     def _write_xml(self, books: list[Book]) -> None:
         root = ET.Element("books")
         for b in books:
@@ -138,6 +158,7 @@ class BookRepository:
         ET.ElementTree(root).write(self._path,
                                    encoding="utf-8", xml_declaration=True)
 
+    # Следующий свободный ID (max + 1)
     def _get_id(self) -> int:
         books = self.get_all()
         return max((b.to_dict()["book_id"] for b in books), default=0) + 1
