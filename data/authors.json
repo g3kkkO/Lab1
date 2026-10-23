@@ -1,0 +1,42 @@
+[
+  {
+    "author_id": 1,
+    "name": "Толстой"
+  },
+  {
+    "author_id": 2,
+    "name": "Достоевский"
+  },
+  {
+    "author_id": 3,
+    "name": "Чехов"
+  },
+  {
+    "author_id": 4,
+    "name": "Пушкин"
+  },
+  {
+    "author_id": 5,
+    "name": "Гоголь"
+  },
+  {
+    "author_id": 6,
+    "name": "Тургенев"
+  },
+  {
+    "author_id": 7,
+    "name": "Булгаков"
+  },
+  {
+    "author_id": 8,
+    "name": "Набоков"
+  },
+  {
+    "author_id": 9,
+    "name": "Солженицын"
+  },
+  {
+    "author_id": 10,
+    "name": "Шолохов"
+  }
+]

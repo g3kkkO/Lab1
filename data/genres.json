@@ -1,0 +1,18 @@
+[
+  {
+    "genre_id": 1,
+    "genre_name": "Роман"
+  },
+  {
+    "genre_id": 2,
+    "genre_name": "Детектив"
+  },
+  {
+    "genre_id": 3,
+    "genre_name": "Фантастика"
+  },
+  {
+    "genre_id": 4,
+    "genre_name": "Классика"
+  }
+]

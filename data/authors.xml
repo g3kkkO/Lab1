@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<authors>
+  <author>
+    <author_id>1</author_id>
+    <name>Лев Толстой</name>
+  </author>
+  <author>
+    <author_id>2</author_id>
+    <name>Фёдор Достоевский</name>
+  </author>
+  <author>
+    <author_id>3</author_id>
+    <name>Антон Чехов</name>
+  </author>
+  <author>
+    <author_id>4</author_id>
+    <name>Александр Пушкин</name>
+  </author>
+  <author>
+    <author_id>5</author_id>
+    <name>Николай Гоголь</name>
+  </author>
+  <author>
+    <author_id>6</author_id>
+    <name>Иван Тургенев</name>
+  </author>
+  <author>
+    <author_id>7</author_id>
+    <name>Михаил Булгаков</name>
+  </author>
+  <author>
+    <author_id>8</author_id>
+    <name>Владимир Набоков</name>
+  </author>
+  <author>
+    <author_id>9</author_id>
+    <name>Александр Солженицын</name>
+  </author>
+  <author>
+    <author_id>10</author_id>
+    <name>Михаил Шолохов</name>
+  </author>
+</authors>
