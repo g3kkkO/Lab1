@@ -1,1 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?><books></books>
+<?xml version="1.0" encoding="utf-8"?>
+<books>
+  <book>
+    <book_id>1</book_id>
+    <title>Война и мир</title>
+    <author_ids>
+      <id>1</id>
+    </author_ids>
+    <publisher_id>1</publisher_id>
+    <year>1869</year>
+    <genres_ids>
+      <id>1</id>
+      <id>4</id>
+    </genres_ids>
+    <price>1200.0</price>
+    <stock>10</stock>
+  </book>
+  <book>
+    <book_id>2</book_id>
+    <title>Преступление и наказание</title>
+    <author_ids>
+      <id>2</id>
+    </author_ids>
+    <publisher_id>2</publisher_id>
+    <year>1866</year>
+    <genres_ids>
+      <id>1</id>
+      <id>4</id>
+    </genres_ids>
+    <price>890.0</price>
+    <stock>5</stock>
+  </book>
+  <book>
+    <book_id>3</book_id>
+    <title>Вишнёвый сад</title>
+    <author_ids>
+      <id>3</id>
+    </author_ids>
+    <publisher_id>3</publisher_id>
+    <year>1904</year>
+    <genres_ids>
+      <id>4</id>
+    </genres_ids>
+    <price>450.0</price>
+    <stock>0</stock>
+  </book>
+  <book>
+    <book_id>4</book_id>
+    <title>Мастер и Маргарита</title>
+    <author_ids>
+      <id>2</id>
+    </author_ids>
+    <publisher_id>1</publisher_id>
+    <year>1967</year>
+    <genres_ids>
+      <id>1</id>
+      <id>3</id>
+    </genres_ids>
+    <price>950.0</price>
+    <stock>7</stock>
+  </book>
+</books>

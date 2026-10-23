@@ -1,1 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?><publishers></publishers>
+<?xml version="1.0" encoding="utf-8"?>
+<publishers>
+  <publisher>
+    <publisher_id>1</publisher_id>
+    <publisher_name>Эксмо</publisher_name>
+  </publisher>
+  <publisher>
+    <publisher_id>2</publisher_id>
+    <publisher_name>АСТ</publisher_name>
+  </publisher>
+  <publisher>
+    <publisher_id>3</publisher_id>
+    <publisher_name>Азбука</publisher_name>
+  </publisher>
+</publishers>

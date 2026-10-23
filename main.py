@@ -133,6 +133,29 @@ def actions_menu(service, entity_name: str) -> None:
             pause()
 
 
+def parse_order_items(raw: str) -> list[dict]:
+    text = raw.strip()
+    if text.startswith("(") and text.endswith(")"):
+        text = text[1:-1]
+
+    items = []
+    for part in text.split(","):
+        clean = part.strip().strip("()[]{}")
+        if not clean:
+            continue
+        if ":" not in clean:
+            raise ValueError("Позиции должны быть в формате product_id:quantity")
+        pid, qty = clean.split(":", 1)
+        items.append({
+            "product_id": pid.strip().strip("()[]{}"),
+            "quantity": qty.strip().strip("()[]{}"),
+        })
+
+    if not items:
+        raise ValueError("Не указаны позиции заказа")
+    return items
+
+
 # CREATE: ввод полей и создание записи
 def create_flow(service, entity_name: str) -> None:
     clear()
@@ -165,10 +188,7 @@ def create_flow(service, entity_name: str) -> None:
         status = input("Статус (new/paid/shipped/delivered/cancelled): ")
         address = input("Адрес: ")
         raw = input("Позиции (product_id:quantity,...): ")
-        items = []
-        for part in raw.split(","):
-            pid, qty = part.split(":")
-            items.append({"product_id": pid.strip(), "quantity": qty.strip()})
+        items = parse_order_items(raw)
         obj = service.create_order(customer_id, items, status, address)
     else:
         print("Нет такого действия.")
@@ -260,10 +280,7 @@ def update_flow(service, entity_name: str) -> None:
             obj = service.update_address(order_id, input("Новый адрес: ").strip())
         elif field == "3":
             raw = input("Позиции (product_id:quantity,...): ").strip()
-            items = []
-            for part in raw.split(","):
-                pid, qty = part.split(":")
-                items.append({"product_id": pid.strip(), "quantity": qty.strip()})
+            items = parse_order_items(raw)
             obj = service.update_items(order_id, items)
         elif field == "4":
             obj = service.update_total(order_id, input("Новая сумма: ").strip())

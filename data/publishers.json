@@ -1,6 +1,14 @@
 [
   {
     "publisher_id": 1,
-    "publisher_name": "Издатель"
+    "publisher_name": "Эксмо"
+  },
+  {
+    "publisher_id": 2,
+    "publisher_name": "АСТ"
+  },
+  {
+    "publisher_id": 3,
+    "publisher_name": "Азбука"
   }
 ]

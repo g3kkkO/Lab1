@@ -158,7 +158,7 @@ class OrderRepository:
                 ET.SubElement(item_el, "quantity").text = str(item["quantity"])
 
             ET.SubElement(el, "status").text = data["status"]
-            ET.SubElement(el, "created_at").text = data["created_at"]
+            ET.SubElement(el, "created_at").text = str(data.get("created_at") or "")
             ET.SubElement(el, "address").text = data["address"]
             ET.SubElement(el, "total").text = str(data["total"])
 

@@ -1,1 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?><genres></genres>
+<?xml version="1.0" encoding="utf-8"?>
+<genres>
+  <genre>
+    <genre_id>1</genre_id>
+    <genre_name>Роман</genre_name>
+  </genre>
+  <genre>
+    <genre_id>2</genre_id>
+    <genre_name>Детектив</genre_name>
+  </genre>
+  <genre>
+    <genre_id>3</genre_id>
+    <genre_name>Фантастика</genre_name>
+  </genre>
+  <genre>
+    <genre_id>4</genre_id>
+    <genre_name>Классика</genre_name>
+  </genre>
+</genres>

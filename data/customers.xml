@@ -1,1 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><customers></customers>
+<?xml version="1.0" encoding="utf-8"?>
+<customers>
+  <customer>
+    <customer_id>1</customer_id>
+    <name>Иван Петров</name>
+    <email>ivan@example.com</email>
+  </customer>
+  <customer>
+    <customer_id>2</customer_id>
+    <name>Мария Сидорова</name>
+    <email>maria@example.com</email>
+  </customer>
+  <customer>
+    <customer_id>3</customer_id>
+    <name>Алексей Козлов</name>
+    <email>alexey@example.com</email>
+  </customer>
+</customers>

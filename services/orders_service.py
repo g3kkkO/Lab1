@@ -26,8 +26,6 @@ class OrderService:
         if not customer_id.isdigit() or int(customer_id) <= 0:
             raise IdTypeError
         address = " ".join(address.split())
-        if not ValidationHelper.validate_name(address):
-            raise NameTypeError
         status = status.strip().lower()
         if status not in self.VALID_STATUSES:
             raise StatusValueError
@@ -35,10 +33,10 @@ class OrderService:
         order_items = []
         total = 0.0
         for it in items:
-            product_id = str(it["product_id"]).strip()
+            product_id = str(it["product_id"]).strip().strip("()[]{}")
             if not product_id.isdigit() or int(product_id) <= 0:
                 raise IdTypeError
-            quantity = str(it.get("quantity", 1)).strip()
+            quantity = str(it.get("quantity", 1)).strip().strip("()[]{}")
             if not quantity.isdigit() or int(quantity) <= 0:
                 raise IdTypeError
 
@@ -90,6 +88,9 @@ class OrderService:
     def update_address(self, order_id: str, address: str) -> Order:
         if not order_id.isdigit() or int(order_id) <= 0:
             raise IdTypeError
+        address = " ".join(address.split())
+        if not ValidationHelper.validate_address(address):
+            raise NameTypeError
         updated = self.db.order.update_address(int(order_id), address)
         if not updated:
             raise OrderNotFound
