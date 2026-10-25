@@ -1,9 +1,5 @@
 [
   {
-    "genre_id": 1,
-    "genre_name": "Роман"
-  },
-  {
     "genre_id": 2,
     "genre_name": "Детектив"
   },
@@ -14,5 +10,9 @@
   {
     "genre_id": 4,
     "genre_name": "Классика"
+  },
+  {
+    "genre_id": 5,
+    "genre_name": "Антиутопия"
   }
 ]

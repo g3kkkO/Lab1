@@ -14,8 +14,6 @@ class GenreService:
     # CREATE: создать жанр (валидация названия)
     def create_genre(self, genre_name: str) -> Genre:
         genre_name = " ".join(genre_name.split())
-        if not ValidationHelper.validate_name(genre_name):
-            raise NameTypeError
         genre = self.db.genre.create_genre(genre_name)
         return genre
 
@@ -38,8 +36,6 @@ class GenreService:
         genre_name = " ".join(genre_name.split())
         if not genre_id.isdigit() or int(genre_id) <= 0:
             raise IdTypeError
-        if not ValidationHelper.validate_name(genre_name):
-            raise NameTypeError
         updated = self.db.genre.update_genre_name(int(genre_id), genre_name)
         if not updated:
             raise GenreNotFound

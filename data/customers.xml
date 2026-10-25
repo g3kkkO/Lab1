@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <customers>
   <customer>
     <customer_id>1</customer_id>
@@ -14,5 +14,10 @@
     <customer_id>3</customer_id>
     <name>Алексей Козлов</name>
     <email>alexey@example.com</email>
+  </customer>
+  <customer>
+    <customer_id>4</customer_id>
+    <name>Иван Иванов</name>
+    <email>ivan@mail.ru</email>
   </customer>
 </customers>
