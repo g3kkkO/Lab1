@@ -1,10 +1,5 @@
 [
   {
-    "customer_id": 1,
-    "name": "Иван Петров",
-    "email": "ivan@example.com"
-  },
-  {
     "customer_id": 2,
     "name": "Мария Сидорова",
     "email": "maria@example.com"
@@ -13,5 +8,10 @@
     "customer_id": 3,
     "name": "Алексей Козлов",
     "email": "alexey@example.com"
+  },
+  {
+    "customer_id": 4,
+    "name": "Иван Иванов",
+    "email": "ivan@mail.ru"
   }
 ]

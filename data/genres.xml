@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <genres>
   <genre>
     <genre_id>1</genre_id>
@@ -10,7 +10,7 @@
   </genre>
   <genre>
     <genre_id>3</genre_id>
-    <genre_name>Фантастика</genre_name>
+    <genre_name>Научная фантастика</genre_name>
   </genre>
   <genre>
     <genre_id>4</genre_id>
